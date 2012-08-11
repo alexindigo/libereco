@@ -1,0 +1,23 @@
+{
+  "name": "libereco",
+  "version": "0.0.1",
+  "description": "Liberate your photos from the hosting platforms lockin.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/alexindigo/libereco.git"
+  },
+  "keywords": [
+    "libereco",
+    "photos",
+    "500px",
+    "flickr",
+    "freedom",
+    "migrate"
+  ],
+  "author": "Alex Indigo <iam@alexindigo.com>",
+  "license": "MIT"
+}
