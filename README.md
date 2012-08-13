@@ -4,6 +4,9 @@
 
 A node.js server which allows you to migrate your photos between [Flickr](http://www.flickr.com/) and [500px](http://www.500px.com/) as simple as drag-n-drop.
 
+## Demo
+
+Try it for yourself: [http://libereco.ia.gs/](http://libereco.ia.gs/)
 
 ## Installation
 
@@ -52,6 +55,12 @@ npm config set libereco:port 1337
 
 ```
 npm start
+```
+
+Or run it on custom port
+
+```
+port=1337 npm start
 ```
 
 Open your favorite latest webkit browser and liberate your photos. :)

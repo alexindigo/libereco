@@ -8,10 +8,11 @@ body
   position: relative;
   width: 100%;
   height: 100%;
-  font-family: "Proxima-Nova", 'HelveticaNeue-UltraLight','Helvetica Neue UltraLight','Helvetica Neue','Open-Light',sans-serif;
+  font-family: "Proxima-Nova", 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', 'Open-Light', sans-serif;
   font-weight: 100;
   background-color: #ffffff;
   color: #444444;
+  overflow: hidden;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
@@ -60,16 +61,16 @@ body>div
 
 body:before
 {
-  content: "internal-pre-alpha-0.1 - all comments and questions send to iam@alexindigo.com";
+  content: "alpha version - all comments and questions send to iam@alexindigo.com";
   display: block;
   position: absolute;
   bottom: 10px;
   left: 0px;
   width: 100%;
   font-size: 32px;
-  color: #808080;
+  color: #505050;
   text-align: center;
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 
@@ -114,19 +115,19 @@ body:before
   }
   #right.service_flickr:before
   {
-    content: "Flickr - " attr(data-username);
+    content: "Flickr - " attr(data-username) " - " attr(data-photos-loaded) "/" attr(data-photos-total);
   }
   #right.service_500px:before
   {
-    content: "500px - " attr(data-username);
+    content: "500px - " attr(data-username) " - " attr(data-photos-loaded) "/" attr(data-photos-total);
   }
   #left.service_flickr:before
   {
-    content: attr(data-username) " - Flickr";
+    content: attr(data-photos-loaded) "/" attr(data-photos-total) " - " attr(data-username) " - Flickr";
   }
   #left.service_500px:before
   {
-    content: attr(data-username) " - 500px";
+    content: attr(data-photos-loaded) "/" attr(data-photos-total) " - " attr(data-username) " - 500px";
   }
 
 /* messages */
@@ -141,7 +142,6 @@ body:before
   border-radius: 4px;
   background-clip: padding-box;
 }
-
 
 /* dropzone */
 
@@ -163,11 +163,9 @@ body:before
   box-pack: center;
   box-align: center;
 
-  position: absolute;
+  position: fixed;
   top: 55px;
-  right: 10px;
   bottom: 10px;
-  left: 10px;
   width: auto;
   height: auto;
   color: #555555;
@@ -175,6 +173,18 @@ body:before
   border: 2px dashed #999999;
   border-radius: 8px;
 }
+  #left>.dropzone
+  {
+    left: 10px;
+    right: 50%;
+    margin-right: 10px;
+  }
+  #right>.dropzone
+  {
+    left: 50%;
+    right: 10px;
+    margin-left: 10px;
+  }
   .dropzone.over
   {
     color: #ff0000;
@@ -268,9 +278,17 @@ body:before
   box-sizing: border-box;
 
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   text-align: center;
+
+  -webkit-transition: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  transition: opacity 0.2s;
 }
+  .panel.drop_target>.photos
+  {
+    opacity: 0;
+  }
 .panel>.photos>img
 {
   -webkit-box-flex: 0;
@@ -339,7 +357,7 @@ body:before
 .b-button
 {
   padding: 7px 20px;
-  font-family: "Proxima-Nova", 'HelveticaNeue-UltraLight','Helvetica Neue UltraLight','Helvetica Neue','Open-Light',sans-serif;
+  font-family: "Proxima-Nova", 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', 'Open-Light', sans-serif;
   font-weight: 100;
   font-size: 20px;
   color: white;
@@ -424,3 +442,38 @@ body:before
     background-image: -o-linear-gradient(#b0b0b1, #dbdbdc);
     background-image: linear-gradient(#b0b0b1, #dbdbdc);
   }
+
+#github
+{
+    position: absolute;
+    display: block;
+    top: 35px;
+    right: -75px;
+    width: 240px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #444444;
+    background-image: url("/i/denim.png");
+    background-position: top left;
+    background-repeat: repeat;
+    border-top: 1px dashed #eeeeee;
+    border-bottom: 1px dashed #eeeeee;
+    font-size: 14px;
+    color: #c0c0c0;
+    text-align: center;
+    text-shadow: none;
+    text-decoration: none;
+    z-index: 1;
+
+    -webkit-box-shadow: 0px 1px 1px #444444, 0px -1px 1px #444444;
+    -moz-box-shadow: 0px 1px 1px #444444, 0px -1px 1px #444444;
+    box-shadow: 0px 1px 1px #444444, 0px -1px 1px #444444;
+
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+}
+  #github:hover
+  {
+      color: #ffffff;
+  }
+

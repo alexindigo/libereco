@@ -30,7 +30,7 @@ var path           = require('path')
 // process config settings
 Config.host = process.env.npm_package_config_host;
 
-Config.port = process.env.npm_package_config_port || Config.port;
+Config.port = process.env.port || process.env.npm_package_config_port || Config.port;
 
 Config.path = process.env.npm_package_config_path || Config.path;
 if (Config.path[0] != '/') Config.path = path.join(__dirname, Config.path);
@@ -131,6 +131,26 @@ app.sockets.on('connection', function socketsConnection(socket)
   });
   // }}}
 
+  // {{{ fetch photos
+  socket.on('photos:fetch', function socketPhotosFetchHandler(service, page)
+  {
+    socket.get('api_'+service, function(err, api)
+    {
+      if (err) return callback({status: 'error', message: 'Unable to find API ['+service+'] data', details: err});
+
+      // fetch photos
+      api.fetchPhotos(page, function(err, data)
+      {
+        if (err) return callback({status: 'error', message: 'Cant get photos from '+service, details: err});
+
+        // return list of photos
+        socket.emit('photos:add', service, {page: page, photos: data});
+      });
+    });
+
+  });
+  // }}}
+
   // {{{ upload photo
   socket.on('upload:photo', function socketUploadPhotoHandler(data, callback)
   {
@@ -178,6 +198,8 @@ app.sockets.on('connection', function socketsConnection(socket)
 
 app.httpServer.listen(Config.port, Config.host);
 
+console.log('Listening on '+Config.host+':'+Config.port);
+
 // }}}
 
 /*
@@ -200,20 +222,11 @@ function createOAuthVerifier(socket, service, token, secret)
       {
         if (err) return console.error(['Cannot get access token for '+service, err]);
 
-        // notify client
-        socket.emit('auth:done', {service: service, results: results});
-
-        // fetch photos
-        api.fetchPhotos(function(err, data)
+        api.fetchUser(function(err, user)
         {
-          if (err) return console.log(['Cant get photos from '+service, err]);
+          if (err) return console.error(['Cannot get user data for '+service, err]);
 
-          // TODO: Make it less coupled
           socket.emit('auth:user', {service: service, user: api.Data.user});
-
-          // return list of photos
-          socket.emit(service+':photos', data);
-
         });
       });
 

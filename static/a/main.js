@@ -36,24 +36,24 @@ socket.on('ready', function()
   }
 });
 
-socket.on('auth:done', function(data)
-{
-  if (data.service && authWindow[data.service])
-  {
-    // remove buttons
-    $('.auth_'+data.service).remove();
-    // set loading label
-    $('.service_'+data.service).empty().append('<span class="loading">Loading photos....</span>');
-    authWindow[data.service].close();
-  }
-});
-
-
 socket.on('auth:user', function(data)
 {
   console.log(['user', data]);
 
-  if (data.service && $('.service_'+data.service).length)
+  if (!data.service) return console.log(['Something wrong with service auth', data]);
+
+  if (authWindow[data.service])
+  {
+    // remove buttons
+    $('.auth_'+data.service).remove();
+    authWindow[data.service].close();
+
+    // start loading photos (first page)
+    socket.emit('photos:fetch', data.service, 1);
+    $('.service_'+data.service).empty().append('<span class="loading">Loading photos....</span>');
+  }
+
+  if ($('.service_'+data.service).length)
   {
     $('.service_'+data.service).attr('data-username', data.user.username);
 
@@ -86,24 +86,6 @@ $('body').on('.auth_flickr', 'click', function(e)
 
 });
 
-socket.on('flickr:photos', function(data)
-{
-  var list = JSON.parse(data);
-
-  $('.service_flickr>.loading').remove();
-  $('.service_flickr').append('<div class="photos"/>');
-
-  $.each(list.photos.photo, function(ph)
-  {
-    $('<img class="photo_'+ph.id+'" src="http://farm'+ph.farm+'.staticflickr.com/'+ph.server+'/'+ph.id+'_'+ph.secret+'_s.jpg" alt="'+ph.title+'">')
-      .appendTo('.service_flickr>.photos')
-      .data('photo', ph)
-      ;
-
-  });
-
-});
-
 // 500px
 
 $('body').on('.auth_500px', 'click', function(e)
@@ -118,22 +100,102 @@ $('body').on('.auth_500px', 'click', function(e)
 
 });
 
-socket.on('500px:photos', function(data)
+// Add more photos
+socket.on('photos:add', function(service, data)
 {
-  var list = JSON.parse(data);
+  var list = JSON.parse(data.photos)
+    , panel = $('.service_'+service)
+    ;
 
-  $('.service_500px>.loading').remove();
-  $('.service_500px').append('<div class="photos"/>');
-
-  $.each(list.photos, function(ph)
+  $('.loading', panel).remove();
+  // reset for the first page
+  if (data.page == 1)
   {
-    $('<img class="photo_'+ph.id+'" src="'+ph.image_url.replace(/4\.(jpg|png|gif)(\?.*)?$/, '1.jpg$2')+'" alt="'+ph.name+'">')
-      .appendTo('.service_500px>.photos')
-      .data('photo', ph)
-      ;
-  });
+    $('.photos', panel).remove();
+    panel.append('<div class="photos"/>');
+
+    // add scroller event listener
+    panel.on('scroll', function(e)
+    {
+      var scrollTop = panel.scrollTop()
+        , panelHeight
+        , photosOffset
+        ;
+
+      if (Math.abs((panel.data('scrollTop') || 0) - scrollTop) > 20)
+      {
+        var currentPage = panel.data('page');
+
+        // if no current page defined, no auto loading
+        if (!currentPage) return;
+
+        // save last scroll
+        panel.data('scrollTop', scrollTop);
+
+        panelHeight  = panel.dim().height;
+        photosOffset = $('.photos', panel).offset();
+
+        // calculate teh difference
+        if (photosOffset.height + photosOffset.top < panelHeight)
+        {
+          // prevent other loaders
+           panel.data('page', null);
+
+          // load more photos
+          socket.emit('photos:fetch', service, currentPage+1);
+        }
+      }
+    });
+  }
+
+console.log(['photos', service, list]);
+
+  // TODO: normalize it
+  if (service == '500px')
+  {
+    // save current page number if there is something yet to load
+    if (list.total_pages > data.page)
+    {
+      panel.data('page', data.page);
+    }
+
+    $.each(list.photos, function(ph)
+    {
+      $('<img class="photo_'+ph.id+'" src="'+ph.image_url.replace(/4\.(jpg|png|gif)(\?.*)?$/, '1.jpg$2')+'" alt="'+ph.name+'">')
+        .appendTo('.service_500px>.photos')
+        .data('photo', ph)
+        ;
+    });
+
+    // update counters
+    panel.attr('data-photos-total', list.total_items);
+    panel.attr('data-photos-loaded', $('.photos>img', panel).length);
+
+  }
+  else
+  {
+    // save current page number if there is something yet to load
+    if (list.photos.pages > data.page)
+    {
+      panel.data('page', data.page);
+    }
+
+    $.each(list.photos.photo, function(ph)
+    {
+      $('<img class="photo_'+ph.id+'" src="http://farm'+ph.farm+'.staticflickr.com/'+ph.server+'/'+ph.id+'_'+ph.secret+'_s.jpg" alt="'+ph.title+'">')
+        .appendTo('.service_flickr>.photos')
+        .data('photo', ph)
+        ;
+    });
+
+    // update counters
+    panel.attr('data-photos-total', list.photos.total);
+    panel.attr('data-photos-loaded', $('.photos>img', panel).length);
+  }
 
 });
+
+
 
 /* dragging */
 
@@ -147,10 +209,12 @@ function handleDragStart(e)
   if (parent.attr('id') == 'left')
   {
     $('#chest>.dropzone').clone().appendTo('#right');
+    $('#right').addClass('drop_target');
   }
   else
   {
     $('#chest>.dropzone').clone().appendTo('#left');
+    $('#left').addClass('drop_target');
   }
 
   e.dataTransfer.effectAllowed = 'copy';
@@ -210,10 +274,19 @@ function handleDrop(e)
     },
     function(result)
     {
+      var photo = $('.photo_'+data.photo.id)
+        , panel = photo.parents('.panel');
+
 console.log(['uploaded', result]);
-      $('.photo_'+data.photo.id).removeClass('uploading');
+
+      // mark as uploaded
+      photo.removeClass('uploading');
+
+      // update counter
+      panel.attr('data-photos-loaded', $('.photos>img', panel).length);
+
       // update id to new one
-      $('.photo_'+data.photo.id).removeClass('photo_'+data.photo.id).addClass('photo_'+result.data.photo.id);
+      photo.removeClass('photo_'+data.photo.id).addClass('photo_'+result.data.photo.id);
     }
   );
 
@@ -227,6 +300,7 @@ function handleDragEnd(e)
 {
   $('.photos>img.touched').removeClass('touched');
   $('.panel>.dropzone').remove();
+  $('.panel').removeClass('drop_target');
 }
 
 
