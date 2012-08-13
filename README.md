@@ -2,7 +2,7 @@
 
 *Liberate your photos from the hosting platforms lockin*
 
-A node.js server which allows you to migrate your photos between [Flickr](http://www.flickr.com/) and [500px](http://www.500px.com/) as simple as drag-n-drop.
+A node.js server which allows you to migrate your photos between [Flickr](http://www.flickr.com/) and [500px](http://www.500px.com/) as easy as drag-n-drop.
 
 ## Demo
 
