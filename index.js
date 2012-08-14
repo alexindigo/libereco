@@ -102,7 +102,7 @@ app.sockets.on('connection', function socketsConnection(socket)
 
   activeClients++;
 
-  var browser = socket.manager.handshaken[socket.id].headers['user-agent'].match(/(Chrome|Safari|Firefox|MSIE)(\/| )[0-9]+(\.[0-9]+)?/)[0];
+  var browser = (socket.manager.handshaken[socket.id].headers['user-agent'].match(/(Chrome|Safari|Firefox|MSIE)(\/| )[0-9]+(\.[0-9]+)?/) || [])[0];
 
   console.log(['connected', browser, socket.id, activeClients]);
 
