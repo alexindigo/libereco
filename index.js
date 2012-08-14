@@ -14,6 +14,7 @@ var path           = require('path')
     }
 
   // globals
+  , activeClients  = 0
   , oauthPool      = {}
 
   // settings
@@ -86,7 +87,7 @@ app.route(Config.oauthCallback, function appRouteOauthCallback(req, res)
     oauthPool[token](verifier);
   }
 
-  res.end('Thank you.');
+  res.end('<script>window.close();</script>');
 });
 
 // static files + landing page
@@ -99,6 +100,22 @@ app.sockets.on('connection', function socketsConnection(socket)
   // let's party
   socket.emit('ready');
 
+  activeClients++;
+
+  var browser = socket.manager.handshaken[socket.id].headers['user-agent'].match(/(Chrome|Safari|Firefox|MSIE)(\/| )[0-9]+(\.[0-9]+)?/)[0];
+
+  console.log(['connected', browser, socket.id, activeClients]);
+
+  socket.browser = browser;
+
+  // {{{ disconnect
+  socket.on('disconnect', function()
+  {
+    activeClients--;
+    console.log(['left', browser, socket.id, activeClients]);
+  });
+  // }}}
+
   // {{{ service auth
   // TODO: Maybe make it as handler for situations when access token is missing
   socket.on('auth:request', function socketAuthRequestHandler(service, callback)
@@ -110,7 +127,7 @@ app.sockets.on('connection', function socketsConnection(socket)
 
     // set current host
     // TODO: Make it sane
-    api.set({callbackHost: Config.host || socket.manager.handshaken[Object.keys(socket.manager.handshaken)[0]].headers.host });
+    api.set({callbackHost: Config.host || socket.manager.handshaken[socket.id].headers.host });
 
     // and store it in the socket
     socket.set('api_'+service, api, function socketStoreApi()

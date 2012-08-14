@@ -8,7 +8,7 @@ body
   position: relative;
   width: 100%;
   height: 100%;
-  font-family: "Proxima-Nova", 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', 'Open-Light', sans-serif;
+  font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', 'Open-Light', sans-serif;
   font-weight: 100;
   background-color: #ffffff;
   color: #444444;
@@ -72,7 +72,6 @@ body:before
   text-align: center;
   opacity: 0.7;
 }
-
 
 #left,
 #right
@@ -243,7 +242,7 @@ body:before
   box-pack: center;
   box-align: center;
 
-  position: absolute;
+  position: relative;
   top: 0px;
   left: 0px;
   width: 100%;
@@ -251,6 +250,10 @@ body:before
 }
 .auth>button
 {
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  box-flex: 0;
+
   display: block;
   min-width: 150px;
   margin: 5px;
@@ -259,24 +262,27 @@ body:before
 
 .panel>.photos
 {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
   display: -webkit-box;
+/*  display: -moz-box; Yay for firefox */
+  display: box;
+
   -webkit-box-orient: horizontal;
   -webkit-box-pack: center;
   -webkit-box-align: start;
-  -webkit-box-sizing: border-box;
 
-  display: -moz-box;
   -moz-box-orient: horizontal;
   -moz-box-pack: center;
   -moz-box-align: start;
-  -moz-box-sizing: border-box;
 
-  display: box;
   box-orient: horizontal;
   box-pack: center;
   box-align: start;
-  box-sizing: border-box;
 
+  position: relative;
   width: 100%;
   min-height: 100%;
   text-align: center;
@@ -357,7 +363,7 @@ body:before
 .b-button
 {
   padding: 7px 20px;
-  font-family: "Proxima-Nova", 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', 'Open-Light', sans-serif;
+  font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', 'Open-Light', sans-serif;
   font-weight: 100;
   font-size: 20px;
   color: white;
@@ -365,7 +371,6 @@ body:before
   background-image: -webkit-linear-gradient(#fd902d, #dc6f0f);
   background-image: -moz-linear-gradient(#fd902d, #dc6f0f);
   background-image: -ms-linear-gradient(#fd902d, #dc6f0f);
-  background-image: -o-linear-gradient(#fd902d, #dc6f0f);
   background-image: linear-gradient(#fd902d, #dc6f0f);
   background-repeat: repeat-x;
   border: 1px solid;
@@ -394,7 +399,6 @@ body:before
     background-image: -webkit-linear-gradient(#fca329, #e6831f);
     background-image: -moz-linear-gradient(#fca329, #e6831f);
     background-image: -ms-linear-gradient(#fca329, #e6831f);
-    background-image: -o-linear-gradient(#fca329, #e6831f);
     background-image: linear-gradient(#fca329, #e6831f);
   }
   .b-button:active
@@ -404,7 +408,6 @@ body:before
     background-image: -webkit-linear-gradient(#c56809, #f98f00);
     background-image: -moz-linear-gradient(#c56809, #f98f00);
     background-image: -ms-linear-gradient(#c56809, #f98f00);
-    background-image: -o-linear-gradient(#c56809, #f98f00);
     background-image: linear-gradient(#c56809, #f98f00);
     -webkit-box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.2), 1px 1px 0px rgba(255, 255, 255, 0.2);
     box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.2), 1px 1px 0px rgba(255, 255, 255, 0.2);
@@ -417,7 +420,6 @@ body:before
   background-image: -webkit-linear-gradient(#d8d8d9, #b0b0b1);
   background-image: -moz-linear-gradient(#d8d8d9, #b0b0b1);
   background-image: -ms-linear-gradient(#d8d8d9, #b0b0b1);
-  background-image: -o-linear-gradient(#d8d8d9, #b0b0b1);
   background-image: linear-gradient(#d8d8d9, #b0b0b1);
   border-color: #9e9e9f #aeaeae #848485;
   text-shadow: 0px 1px 0px #606060;
@@ -429,7 +431,6 @@ body:before
     background-image: -webkit-linear-gradient(#e8e8e9, #c0c0c1);
     background-image: -moz-linear-gradient(#e8e8e9, #c0c0c1);
     background-image: -ms-linear-gradient(#e8e8e9, #c0c0c1);
-    background-image: -o-linear-gradient(#e8e8e9, #c0c0c1);
     background-image: linear-gradient(#e8e8e9, #c0c0c1);
   }
   .b-button_action_alternative:active
@@ -439,7 +440,6 @@ body:before
     background-image: -webkit-linear-gradient(#b0b0b1, #dbdbdc);
     background-image: -moz-linear-gradient(#b0b0b1, #dbdbdc);
     background-image: -ms-linear-gradient(#b0b0b1, #dbdbdc);
-    background-image: -o-linear-gradient(#b0b0b1, #dbdbdc);
     background-image: linear-gradient(#b0b0b1, #dbdbdc);
   }
 

@@ -46,7 +46,7 @@ socket.on('auth:user', function(data)
   {
     // remove buttons
     $('.auth_'+data.service).remove();
-    authWindow[data.service].close();
+    //authWindow[data.service].close();
 
     // start loading photos (first page)
     socket.emit('photos:fetch', data.service, 1);
@@ -136,7 +136,7 @@ socket.on('photos:add', function(service, data)
         photosOffset = $('.photos', panel).offset();
 
         // calculate teh difference
-        if (photosOffset.height + photosOffset.top < panelHeight)
+        if (photosOffset.height + photosOffset.top < panelHeight + 20)
         {
           // prevent other loaders
            panel.data('page', null);
@@ -257,10 +257,8 @@ function handleDragLeave(e)
 
 function handleDrop(e)
 {
-  if (e.stopPropagation)
-  {
-    e.stopPropagation();
-  }
+  if (e.stopPropagation) e.stopPropagation();
+  if (e.preventDefault) e.preventDefault();
 
   if (!$(this).hasClass('dropzone')) return false;
 
