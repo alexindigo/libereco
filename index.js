@@ -22,6 +22,7 @@ var path           = require('path')
     {
       port         : 8000,
       path         : 'static',
+      index        : 'index.html',
       oauthCallback: '/oauth/callback'
     }
   ;
@@ -36,7 +37,8 @@ Config.port = process.env.port || process.env.npm_package_config_port || Config.
 Config.path = process.env.path || process.env.npm_package_config_path || Config.path;
 if (Config.path[0] != '/') Config.path = path.join(__dirname, Config.path);
 
-Config.index = path.join(Config.path, process.env.index || process.env.npm_package_config_index || 'index.html');
+Config.index = process.env.index || process.env.npm_package_config_index || Config.index;
+if (Config.index[0] != '/') Config.index = path.join(Config.path, Config.index);
 
 // check APIs
 for (var service in APIs)
