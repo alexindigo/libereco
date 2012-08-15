@@ -76,7 +76,7 @@ npm start libereco
 You can specify all the config parameters on start time:
 
 ```
-index=maintenance.html path=/var/www/theme2 port=1337 npm start
+index=maintenance.html path=/var/www/theme2 port=1337 npm start libereco
 ```
 
 Open your favorite latest webkit browser and liberate your photos. :)
