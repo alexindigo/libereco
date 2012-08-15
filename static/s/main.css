@@ -43,6 +43,40 @@ body
   background: transparent;
 }
 
+/* special */
+body.maintenance
+{
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+
+  -moz-box-orient: vertical;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+
+  box-orient: vertical;
+  box-pack: center;
+  box-align: center;
+
+  overflow: visible;
+}
+h1
+{
+  font-size: 48px;
+  font-weight: 100;
+}
+  body.maintenance>h1
+  {
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    box-flex: 0;
+  }
+
+
 /*  main */
 body>div
 {
@@ -67,10 +101,10 @@ body:before
   bottom: 10px;
   left: 0px;
   width: 100%;
-  font-size: 32px;
+  font-size: 28px;
   color: #505050;
   text-align: center;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 #left,

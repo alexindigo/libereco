@@ -29,14 +29,14 @@ var path           = require('path')
 // {{{ prepare environment
 
 // process config settings
-Config.host = process.env.npm_package_config_host;
+Config.host = process.env.host || process.env.npm_package_config_host;
 
 Config.port = process.env.port || process.env.npm_package_config_port || Config.port;
 
-Config.path = process.env.npm_package_config_path || Config.path;
+Config.path = process.env.path || process.env.npm_package_config_path || Config.path;
 if (Config.path[0] != '/') Config.path = path.join(__dirname, Config.path);
 
-Config.index = path.join(Config.path, process.env.npm_package_config_index || 'index.html');
+Config.index = path.join(Config.path, process.env.index || process.env.npm_package_config_index || 'index.html');
 
 // check APIs
 for (var service in APIs)
@@ -102,7 +102,7 @@ app.sockets.on('connection', function socketsConnection(socket)
 
   activeClients++;
 
-  var browser = (socket.manager.handshaken[socket.id].headers['user-agent'].match(/(Chrome|Safari|Firefox|MSIE)(\/| )[0-9]+(\.[0-9]+)?/) || [])[0];
+  var browser = (socket.manager.handshaken[socket.id].headers['user-agent'].match(/(Chrome|Safari|Firefox|MSIE)(\/| )[0-9]+(\.[0-9]+)?/) || [socket.manager.handshaken[socket.id].headers['user-agent']])[0];
 
   console.log(['connected', browser, socket.id, activeClients]);
 

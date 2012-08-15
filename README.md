@@ -51,20 +51,43 @@ npm config set libereco:host libereco.ia.gs
 npm config set libereco:port 1337
 ```
 
+* Path for static files (*Defaults to static*):
+
+*Useful for customizing UI of the app and keeping `npm update` functionality*
+
+```
+npm config set libereco:path /var/www/custom_root
+```
+
+* Index file (*Defaults to index.html*):
+
+*For example temporally switching to the maintenance page*
+
+```
+npm config set libereco:index maintenance.html
+```
+
 ### Start application
 
 ```
-npm start
+npm start libereco
 ```
 
-Or run it on custom port
+You can specify all the config parameters on start time:
 
 ```
-port=1337 npm start
+index=maintenance.html path=/var/www/theme2 port=1337 npm start
 ```
 
 Open your favorite latest webkit browser and liberate your photos. :)
 
+## Browser support
+
+*Take it away*: Chrome, Safari, Firefox
+
+*Getting there*: iPad
+
+*Eventually*: Internet Explorer, iPhone
 
 ## TODO
 
