@@ -30,9 +30,9 @@ var path           = require('path')
 // {{{ prepare environment
 
 // process config settings
-Config.host = process.env.host || process.env.npm_package_config_host;
+Config.host = process.env.IP || process.env.host || process.env.npm_package_config_host;
 
-Config.port = process.env.port || process.env.npm_package_config_port || Config.port;
+Config.port = process.env.PORT || process.env.port || process.env.npm_package_config_port || Config.port;
 
 Config.path = process.env.path || process.env.npm_package_config_path || Config.path;
 if (Config.path[0] != '/') Config.path = path.join(__dirname, Config.path);
@@ -155,12 +155,12 @@ app.sockets.on('connection', function socketsConnection(socket)
   {
     socket.get('api_'+service, function(err, api)
     {
-      if (err) return callback({status: 'error', message: 'Unable to find API ['+service+'] data', details: err});
+      if (err) return console.error(['Unable to find API ['+service+'] data', err]);
 
       // fetch photos
       api.fetchPhotos(page, function(err, data)
       {
-        if (err) return callback({status: 'error', message: 'Cant get photos from '+service, details: err});
+        if (err) return console.error(['Cant get photos from '+service, err]);
 
         // return list of photos
         socket.emit('photos:add', service, {page: page, photos: data});
