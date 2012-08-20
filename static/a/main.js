@@ -1,9 +1,5 @@
 var socket = io.connect()
 
-  // globals
-  , authWindow = {}
-  ;
-
 // hack on ender
 $.ender(
 {
@@ -42,17 +38,14 @@ socket.on('auth:user', function(data)
 
   if (!data.service) return console.log(['Something wrong with service auth', data]);
 
-  if (authWindow[data.service])
-  {
-    // remove buttons
-    $('.auth_'+data.service).remove();
-    //authWindow[data.service].close();
+  // remove buttons
+  $('.auth_'+data.service).remove();
 
-    // start loading photos (first page)
-    socket.emit('photos:fetch', data.service, 1);
-    $('.service_'+data.service).empty().append('<span class="loading">Loading photos....</span>');
-  }
+  // start loading photos (first page)
+  socket.emit('photos:fetch', data.service, 1);
+  $('.service_'+data.service).empty().append('<span class="loading">Loading photos....</span>');
 
+  // store service data
   if ($('.service_'+data.service).length)
   {
     $('.service_'+data.service)
@@ -67,12 +60,14 @@ socket.on('auth:user', function(data)
 
 $('body').on('.auth_flickr', 'click', function(e)
 {
+  var w = window.open('', 'flickr_auth', 'width=500,height=700');
+
   socket.emit('auth:request', 'flickr', function(data)
   {
     // set service name
     $(e.target).parents('.panel').addClass('service_flickr');
 
-    authWindow['flickr'] = window.open('http://www.flickr.com/services/oauth/authorize?oauth_token='+data.data.token, 'flickr_auth', 'width=500,height=700');
+    w.location = 'http://www.flickr.com/services/oauth/authorize?oauth_token='+data.data.token;
   });
 
 });
@@ -81,12 +76,13 @@ $('body').on('.auth_flickr', 'click', function(e)
 
 $('body').on('.auth_500px', 'click', function(e)
 {
+  var w = window.open('', '500px_auth', 'width=500,height=700');
+
   socket.emit('auth:request', '500px', function(data)
   {
     // set service name
     $(e.target).parents('.panel').addClass('service_500px');
-
-    authWindow['500px'] = window.open('https://api.500px.com/v1/oauth/authorize?oauth_token='+data.data.token, '500px_auth', 'width=500,height=700');
+    w.location = 'https://api.500px.com/v1/oauth/authorize?oauth_token='+data.data.token;
   });
 
 });
