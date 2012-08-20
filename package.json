@@ -1,8 +1,11 @@
 {
   "name": "libereco",
-  "version": "0.0.3-3",
+  "version": "0.0.4",
   "description": "Liberate your photos from the hosting platforms lockin.",
   "main": "index.js",
+  "codebux": {
+    "score": "+51.40"
+  },
   "config": {
     "port": "8000",
     "path": "static"

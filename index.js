@@ -234,7 +234,7 @@ function createOAuthVerifier(socket, service, token, secret)
   {
     socket.get('api_'+service, function(err, api)
     {
-      if (err) return console.error(['Cannot store access data ['+service+'] in the socket', err]);
+      if (err || !api) return console.error(['Cannot store access data ['+service+'] in the socket', (err ? err : 'api is null'), api]);
 
       // get Access Token from the API
       api.getAccessToken(token, secret, verifier, function oauthAccessTokenHandler(err, access_token, access_secret, results)

@@ -55,19 +55,10 @@ socket.on('auth:user', function(data)
 
   if ($('.service_'+data.service).length)
   {
-    $('.service_'+data.service).attr('data-username', data.user.username);
-
-    // special check for Flickr
-    if (data.service == 'flickr' && !data.user.details.ispro)
-    {
-      $('#chest>.flickr_message_nopro').clone().prependTo('.service_'+data.service);
-    }
-
-    // special check for Flickr
-    if (data.service == 'flickr')
-    {
-      $('#chest>.flickr_message_noupload').clone().prependTo('.service_'+data.service);
-    }
+    $('.service_'+data.service)
+      .attr('data-username', data.user.username)
+      .data('_raw', data)
+      ;
   }
 });
 
@@ -204,17 +195,37 @@ function handleDragStart(e)
   $(this).addClass('touched');
 
   // show dropzone
-  var parent = $(this).parents('.panel');
+  var parent = $(this).parents('.panel')
+    , data   = parent.data('_raw')
+    , dropzone
+    ;
 
   if (parent.attr('id') == 'left')
   {
-    $('#chest>.dropzone').clone().appendTo('#right');
-    $('#right').addClass('drop_target');
+    dropzone = $('#right');
   }
   else
   {
-    $('#chest>.dropzone').clone().appendTo('#left');
-    $('#left').addClass('drop_target');
+    dropzone = $('#left');
+  }
+
+  // add messaging
+  $('#chest>.dropzone').clone().appendTo(dropzone);
+  $(dropzone).addClass('drop_target');
+
+  // reuse dropzone
+  dropzone = $('.dropzone', dropzone);
+
+  // special check for Flickr
+  if (data.service == 'flickr') // && !data.user.details.ispro)
+  {
+    $('#chest>.flickr_message_upload_nopro').clone().prependTo(dropzone);
+  }
+
+  // check for 500px
+  if (data.service == '500px')
+  {
+    $('#chest>.px500_message_upload').clone().prependTo(dropzone);
   }
 
   e.dataTransfer.effectAllowed = 'copy';
@@ -273,7 +284,9 @@ function handleDrop(e)
     function(result)
     {
       var photo = $('.photo_'+data.photo.id)
-        , panel = photo.parents('.panel');
+        , panel = photo.parents('.panel')
+        , tempData
+        ;
 
 console.log(['uploaded', result]);
 
@@ -285,6 +298,11 @@ console.log(['uploaded', result]);
 
       // update id to new one
       photo.removeClass('photo_'+data.photo.id).addClass('photo_'+result.data.photo.id);
+
+      // TODO: Update photo data for realz
+      tempData = photo.data('photo');
+      tempData.id = result.data.photo.id;
+      photo.data('photo', tempData);
     }
   );
 
@@ -297,8 +315,8 @@ console.log(['uploaded', result]);
 function handleDragEnd(e)
 {
   $('.photos>img.touched').removeClass('touched');
-  $('.panel>.dropzone').remove();
-  $('.panel').removeClass('drop_target');
+ $('.panel>.dropzone').remove();
+ $('.panel').removeClass('drop_target');
 }
 
 

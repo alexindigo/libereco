@@ -6,12 +6,24 @@ A node.js server which allows you to migrate your photos between [Flickr](http:/
 
 ## Demo
 
-Try it for yourself: [http://libereco.ia.gs/](http://libereco.ia.gs/)
+Try it for yourself: [http://libere.co/](http://libere.co/)
 
 ## Installation
 
 ```
 npm install libereco
+```
+
+## Codebux
+
+```
++   100.00  # initial stipend
+-    14.46  # index.js
+-    10.93  # lib/api_500px.js
+-     5.64  # lib/api.js
+-    17.54  # lib/api_flickr.js
+—————————————————————————————————————————————————
++    51.40
 ```
 
 ## Usage
@@ -37,12 +49,10 @@ npm config set libereco:api_flickr_secret <flickr api secret>
 
 ### Customize HTTP server
 
-You should have publicly accessible http server for OAuth to work.
-
 * Hostname *(Defaults to OS assigned hostname)*:
 
 ```
-npm config set libereco:host libereco.ia.gs
+npm config set libereco:host libereco.yourapp.com
 ```
 
 * Port *(Defaults to port 8000)*:
@@ -91,6 +101,8 @@ Open your favorite latest webkit browser and liberate your photos. :)
 
 ## TODO
 
+* Add tests
+* Add link to the new photo from old location
 * Add statistics (e.g. number of photos migrated per service)
 * Add albums support
 * Add more services (e.g. Dropbox, Instagram, Facebook, Google Plus)
