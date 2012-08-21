@@ -30,9 +30,9 @@ var path           = require('path')
 // {{{ prepare environment
 
 // process config settings
-Config.host = process.env.IP || process.env.host || process.env.npm_package_config_host;
+Config.host = process.env.host || process.env.npm_package_config_host;
 
-Config.port = process.env.PORT || process.env.port || process.env.npm_package_config_port || Config.port;
+Config.port = process.env.port || process.env.npm_package_config_port || Config.port;
 
 Config.path = process.env.path || process.env.npm_package_config_path || Config.path;
 if (Config.path[0] != '/') Config.path = path.join(__dirname, Config.path);
