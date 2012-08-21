@@ -1,6 +1,6 @@
 {
   "name": "libereco",
-  "version": "0.0.4-1",
+  "version": "0.0.4-2",
   "description": "Liberate your photos from the hosting platforms lockin.",
   "main": "index.js",
   "codebux": {

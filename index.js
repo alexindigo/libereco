@@ -129,7 +129,7 @@ app.sockets.on('connection', function socketsConnection(socket)
 
     // set current host
     // TODO: Make it sane
-    api.set({callbackHost: Config.host || socket.manager.handshaken[socket.id].headers.host });
+    api.set({callbackHost: socket.manager.handshaken[socket.id].headers.host });
 
     // and store it in the socket
     socket.set('api_'+service, api, function socketStoreApi()
