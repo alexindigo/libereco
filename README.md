@@ -19,11 +19,11 @@ npm install libereco
 ```
 +   100.00  # initial stipend
 -    14.46  # index.js
--    10.93  # lib/api_500px.js
--     5.64  # lib/api.js
--    17.54  # lib/api_flickr.js
+-    16.53  # lib/api_500px.js
+-     6.44  # lib/api.js
+-    22.98  # lib/api_flickr.js
 —————————————————————————————————————————————————
-+    51.40
++    39.57
 ```
 
 ## Usage
@@ -99,9 +99,13 @@ Open your favorite latest webkit browser and liberate your photos. :)
 
 *Eventually*: Internet Explorer, iPhone
 
+## In Development
+
+* Refactor libs into separate modules
+* Add tests
+
 ## TODO
 
-* Add tests
 * Add link to the new photo from old location
 * Add statistics (e.g. number of photos migrated per service)
 * Add albums support

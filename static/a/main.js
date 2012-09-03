@@ -135,7 +135,7 @@ socket.on('photos:add', function(service, data)
     });
   }
 
-console.log(['photos', service, list]);
+//console.log(['photos', service, list]);
 
   // TODO: normalize it
   if (service == '500px')
@@ -213,7 +213,7 @@ function handleDragStart(e)
   dropzone = $('.dropzone', dropzone);
 
   // special check for Flickr
-  if (data.service == 'flickr') // && !data.user.details.ispro)
+  if (data.service == 'flickr' && !data.user.details.ispro)
   {
     $('#chest>.flickr_message_upload_nopro').clone().prependTo(dropzone);
   }
