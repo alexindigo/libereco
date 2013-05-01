@@ -1,19 +1,11 @@
 {
   "name": "libereco",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Liberate your photos from the hosting platforms lockin.",
   "main": "index.js",
-  "codebux": {
-    "score": "+39.57"
-  },
-  "config": {
-    "port": "8000",
-    "path": "static"
-  },
   "scripts": {
     "start": "node index.js"
   },
-  "node":"0.6.17",
   "engines": {
     "node": ">= 0.6"
   },
@@ -27,17 +19,18 @@
     "500px",
     "flickr",
     "freedom",
+    "liberation",
     "migrate"
   ],
   "author": "Alex Indigo <iam@alexindigo.com>",
   "license": "MIT",
   "dependencies": {
     "oauth": "~0.9.8",
-    "form-data": "0.0.3",
+    "form-data": "~0.0.9",
     "socket.io": "~0.9.10",
-    "request": "~2.10.0",
+    "request": "~2.21.0",
     "tako": "~0.3.0",
-    "async": "~0.1.22",
-    "valentine": "~1.5.5"
+    "async": "~0.2.7",
+    "valentine": "~1.6.0"
   }
 }

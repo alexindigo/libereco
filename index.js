@@ -30,15 +30,17 @@ var path           = require('path')
 // {{{ prepare environment
 
 // process config settings
-Config.host = process.env.host || process.env.npm_package_config_host;
+Config.host = getConfigVar('host');
 
-Config.port = process.env.port || process.env.npm_package_config_port || Config.port;
+Config.port = getConfigVar('port') || Config.port;
 
-Config.path = process.env.path || process.env.npm_package_config_path || Config.path;
+Config.path = getConfigVar('path') || Config.path;
 if (Config.path[0] != '/') Config.path = path.join(__dirname, Config.path);
 
-Config.index = process.env.index || process.env.npm_package_config_index || Config.index;
+Config.index = getConfigVar('index') || Config.index;
 if (Config.index[0] != '/') Config.index = path.join(Config.path, Config.index);
+
+Config.oauthCallback = getConfigVar('oauth_callback') || Config.oauthCallback;
 
 // check APIs
 for (var service in APIs)
@@ -46,12 +48,12 @@ for (var service in APIs)
   if (!APIs.hasOwnProperty(service)) continue;
 
   // check that we have both api key and secret for each service
-  if (process.env['npm_package_config_api_'+service+'_key'] && process.env['npm_package_config_api_'+service+'_secret'])
+  if (getConfigVar('api_'+service+'_key') && getConfigVar('api_'+service+'_secret'))
   {
     APIs[service].oauth(
     {
-      key      : process.env['npm_package_config_api_'+service+'_key'],
-      secret   : process.env['npm_package_config_api_'+service+'_secret'],
+      key      : getConfigVar('api_'+service+'_key'),
+      secret   : getConfigVar('api_'+service+'_secret'),
       callback : Config.oauthCallback
     });
   }
@@ -256,3 +258,9 @@ function createOAuthVerifier(socket, service, token, secret)
   };
 }
 
+// fetches variable from environment or npm config
+// TODO: Should we account for 0?
+function getConfigVar(key)
+{
+  return process.env[key] || process.env['npm_package_config_'+key] || null;
+}

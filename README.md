@@ -14,26 +14,33 @@ Try it for yourself: [http://libere.co/](http://libere.co/)
 npm install libereco
 ```
 
-## Codebux
-
-```
-+   100.00  # initial stipend
--    14.46  # index.js
--    16.53  # lib/api_500px.js
--     6.44  # lib/api.js
--    22.98  # lib/api_flickr.js
-—————————————————————————————————————————————————
-+    39.57
-```
-
 ## Usage
 
-### Add API services
+Could be deployed to [https://www.nodejitsu.com/](nodejitsu.com) out of the box:
+```
+cd node_modules/libereco/
+jitsu env set api_500px_key <500px consumer key>
+jitsu env set api_500px_secret <500px consumer secret>
+jitsu env set api_flickr_key <flickr api key>
+jitsu env set api_flickr_secret <flickr api secret>
+jitsu deploy
+```
+
+Read below for more details.
+
+### Add API services (required)
 
 *You need at least two services enabled for application to work.*
 
 * 500px *([request API key](http://500px.com/settings/applications?from=developers))*:
 
+Environment variables:
+```
+export api_500px_key <500px consumer key>
+export api_500px_secret <500px consumer secret>
+```
+
+Or npm config:
 ```
 npm config set libereco:api_500px_key <500px consumer key>
 npm config set libereco:api_500px_secret <500px consumer secret>
@@ -41,38 +48,68 @@ npm config set libereco:api_500px_secret <500px consumer secret>
 
 * Flickr  *([request API key](http://www.flickr.com/services/apps/create/apply/))*:
 
+Environment variables:
+```
+export api_flickr_key <flickr api key>
+export api_flickr_secret <flickr api secret>
+```
+
+Or npm config:
 ```
 npm config set libereco:api_flickr_key <flickr api key>
 npm config set libereco:api_flickr_secret <flickr api secret>
 ```
 
-
-### Customize HTTP server
+### Customize HTTP server (optional)
 
 * Hostname *(Defaults to OS assigned hostname)*:
 
+Environment variables:
+```
+export host libereco.yourapp.com
+```
+
+Or npm config:
 ```
 npm config set libereco:host libereco.yourapp.com
 ```
 
-* Port *(Defaults to port 8000)*:
+* Port *(Defaults to port ```8000```)*:
 
+Environment variables:
+```
+export port 1337
+```
+
+Or npm config:
 ```
 npm config set libereco:port 1337
 ```
 
-* Path for static files (*Defaults to static*):
+* Path for static files (*Defaults to ```static```*):
 
 *Useful for customizing UI of the app and keeping `npm update` functionality*
 
+Environment variables:
+```
+export path /var/www/custom_root
+```
+
+Or npm config:
 ```
 npm config set libereco:path /var/www/custom_root
 ```
 
-* Index file (*Defaults to index.html*):
+* Index file (*Defaults to ```index.html```*):
 
 *For example temporally switching to the maintenance page*
 
+Environment variables:
+```
+export index maintenance.html
+```
+
+Or npm config:
 ```
 npm config set libereco:index maintenance.html
 ```
@@ -85,11 +122,12 @@ npm start libereco
 
 You can specify all the config parameters on start time:
 
+
 ```
 index=maintenance.html path=/var/www/theme2 port=1337 npm start libereco
 ```
 
-Open your favorite latest webkit browser and liberate your photos. :)
+Open your favorite modern browser and liberate your photos. :)
 
 ## Browser support
 

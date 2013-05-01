@@ -1,0 +1,6 @@
+/node_modules/
+.gitignore
+.gitmodules
+.npmignore
+*.sublime-*
+sftp-config.json
