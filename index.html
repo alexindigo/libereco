@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Libereco by alexindigo</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Libereco</h1>
+          <h2>Liberate your photos from the hosting platforms lockin.</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/alexindigo/libereco/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/alexindigo/libereco/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/alexindigo/libereco" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <p>A node.js server which allows you to migrate your photos between <a href="http://www.flickr.com/">Flickr</a> and <a href="http://www.500px.com/">500px</a> as easy as drag-n-drop.</p>
+
+<h2>Demo</h2>
+
+<p>Try it for yourself: <a href="http://libere.co/">http://libere.co/</a></p>
+
+<h2>Installation</h2>
+
+<ul>
+<li>Download <a href="https://github.com/alexindigo/libereco/zipball/master">.zip</a> or <a href="https://github.com/alexindigo/libereco/tarball/master">.tar</a> file.</li>
+<li>Unpack downloaded file.</li>
+</ul><h2>Usage</h2>
+
+<p>Could be deployed to <a href="https://www.nodejitsu.com/">nodejitsu.com</a> out of the box:</p>
+
+<pre><code>jitsu env set api_500px_key &lt;500px consumer key&gt;
+jitsu env set api_500px_secret &lt;500px consumer secret&gt;
+jitsu env set api_flickr_key &lt;flickr api key&gt;
+jitsu env set api_flickr_secret &lt;flickr api secret&gt;
+jitsu deploy
+</code></pre>
+
+<p>Read below for more details.</p>
+
+<h3>Add API services (required)</h3>
+
+<p><em>You need at least two services enabled for application to work.</em></p>
+
+<ul>
+<li>500px <em>(<a href="http://500px.com/settings/applications?from=developers">request API key</a>)</em>:</li>
+</ul><p>Environment variables:</p>
+
+<pre><code>export api_500px_key &lt;500px consumer key&gt;
+export api_500px_secret &lt;500px consumer secret&gt;
+</code></pre>
+
+<p>Or npm config:</p>
+
+<pre><code>npm config set libereco:api_500px_key &lt;500px consumer key&gt;
+npm config set libereco:api_500px_secret &lt;500px consumer secret&gt;
+</code></pre>
+
+<ul>
+<li>Flickr  <em>(<a href="http://www.flickr.com/services/apps/create/apply/">request API key</a>)</em>:</li>
+</ul><p>Environment variables:</p>
+
+<pre><code>export api_flickr_key &lt;flickr api key&gt;
+export api_flickr_secret &lt;flickr api secret&gt;
+</code></pre>
+
+<p>Or npm config:</p>
+
+<pre><code>npm config set libereco:api_flickr_key &lt;flickr api key&gt;
+npm config set libereco:api_flickr_secret &lt;flickr api secret&gt;
+</code></pre>
+
+<h3>Customize HTTP server (optional)</h3>
+
+<ul>
+<li>Hostname <em>(Defaults to OS assigned hostname)</em>:</li>
+</ul><p>Environment variables:</p>
+
+<pre><code>export host libereco.yourapp.com
+</code></pre>
+
+<p>Or npm config:</p>
+
+<pre><code>npm config set libereco:host libereco.yourapp.com
+</code></pre>
+
+<ul>
+<li>Port <em>(Defaults to port <code>8000</code>)</em>:</li>
+</ul><p>Environment variables:</p>
+
+<pre><code>export port 1337
+</code></pre>
+
+<p>Or npm config:</p>
+
+<pre><code>npm config set libereco:port 1337
+</code></pre>
+
+<ul>
+<li>Path for static files (*Defaults to <code>static</code>*):</li>
+</ul><p><em>Useful for customizing UI of the app and keeping <code>npm update</code> functionality</em></p>
+
+<p>Environment variables:</p>
+
+<pre><code>export path /var/www/custom_root
+</code></pre>
+
+<p>Or npm config:</p>
+
+<pre><code>npm config set libereco:path /var/www/custom_root
+</code></pre>
+
+<ul>
+<li>Index file (*Defaults to <code>index.html</code>*):</li>
+</ul><p><em>For example temporally switching to the maintenance page</em></p>
+
+<p>Environment variables:</p>
+
+<pre><code>export index maintenance.html
+</code></pre>
+
+<p>Or npm config:</p>
+
+<pre><code>npm config set libereco:index maintenance.html
+</code></pre>
+
+<h3>Start application</h3>
+
+<pre><code>npm start libereco
+</code></pre>
+
+<p>You can specify all the config parameters on start time:</p>
+
+<pre><code>index=maintenance.html path=/var/www/theme2 port=1337 npm start libereco
+</code></pre>
+
+<p>Open your favorite modern browser and liberate your photos. :)</p>
+
+<h2>Browser support</h2>
+
+<p><em>Take it away</em>: Chrome, Safari, Firefox</p>
+
+<p><em>Getting there</em>: iPad</p>
+
+<p><em>Eventually</em>: Internet Explorer, iPhone</p>
+
+<h2>In Development</h2>
+
+<ul>
+<li>Refactor libs into separate modules</li>
+<li>Add tests</li>
+</ul><h2>TODO</h2>
+
+<ul>
+<li>Add link to the new photo from old location</li>
+<li>Add statistics (e.g. number of photos migrated per service)</li>
+<li>Add albums support</li>
+<li>Add more services (e.g. Dropbox, Instagram, Facebook, Google Plus)</li>
+</ul><h2>License</h2>
+
+<p>(The MIT License)</p>
+
+<p>Copyright (c) 2012 Alex Indigo</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+        </section>
+
+        <footer>
+          Libereco is maintained by <a href="https://github.com/alexindigo">alexindigo</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+                  <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-34105820-2");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+      </div>
+    </div>
+  </body>
+</html>
